@@ -246,7 +246,7 @@ token getnext(char *str) {
 	return t;
 }
 
-list *postfix(char *str) {
+list *postfix(char *str, FILE *fp) {
 	list *l[20];
 	int i = 0;
 	list *l1, *l2, *result, *tmp;
@@ -275,22 +275,59 @@ list *postfix(char *str) {
 				l1 = pop(&s); i--;
 				switch(t->op) {
 					case '+':
+						
+						fprintlist(*l1, fp);
+						fprintf(fp, " + ");
+						fprintlist(*l2, fp);
 						result = add(l1, l2);
+						fprintf(fp, " = ");
+						fprintlist(*result, fp);
+						fprintf(fp, "\n");
 						break;
 					case '-':
+						fprintlist(*l1, fp);
+						fprintf(fp, " - ");
+						fprintlist(*l2, fp);
 						result = substract(l1, l2);
+						fprintf(fp, " = ");
+						fprintlist(*result, fp);
+						fprintf(fp, "\n");
 						break;
 					case '*':
+						fprintlist(*l1, fp);
+						fprintf(fp, " * ");
+						fprintlist(*l2, fp);
 						result = multiply(l1, l2);
+						fprintf(fp, " = ");
+						fprintlist(*result, fp);
+						fprintf(fp, "\n");
 						break;
 					case '/':
+						fprintlist(*l1, fp);
+						fprintf(fp, " / ");
+						fprintlist(*l2, fp);
 						result = divide(l1, l2);
+						fprintf(fp, " = ");
+						fprintlist(*result, fp);
+						fprintf(fp, "\n");
 						break;
 					case '%':
+						fprintlist(*l1, fp);
+						fprintf(fp, " %% ");
+						fprintlist(*l2, fp);
 						result = modulus(l1, l2);
+						fprintf(fp, " = ");
+						fprintlist(*result, fp);
+						fprintf(fp, "\n");
 						break;
 					case '^':
+						fprintlist(*l1, fp);
+						fprintf(fp, " ^ ");
+						fprintlist(*l2, fp);						
 						result = power(l1, l2);
+						fprintf(fp, " = ");
+						fprintlist(*result, fp);
+						fprintf(fp, "\n");
 						break;
 				}
 		push(&s, result);
@@ -324,10 +361,12 @@ int main(int argc, char *argv[]) {
 	int x;
 	list *l;
 	l = (list *)malloc(sizeof(list));
+	FILE *fp;
+	fp = fopen("steps.txt", "w");
 
 	while(x = readline(line, 1000)) {
 		itop(line);
-		l = postfix(line);
+		l = postfix(line, fp);
 		if(l->head != NULL){
 			printlist(*l);
 			printf("\n");

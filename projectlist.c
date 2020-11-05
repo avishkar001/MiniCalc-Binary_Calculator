@@ -119,7 +119,25 @@ int length(list *l) {
 	return len;
 }
 
-
+void fprintlist(list l, FILE *fp){
+	node *tmp;
+	tmp = l.head;
+	int d = l.decimal;
+	int len, i = 0;
+	len = length(&l);
+	if(l.sign < 0)
+		fprintf(fp, "-");
+	while(tmp != NULL){
+		if(i == len - d){
+			if(len == d)
+				fprintf(fp, "0");
+			fprintf(fp, ".");
+		}
+		fprintf(fp, "%d", tmp->val);
+		tmp = tmp->next;
+		i++;
+	}
+}
 
 void printlist(list l){
 	node *tmp;

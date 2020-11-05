@@ -391,6 +391,8 @@ list *divide(list *l1, list *l2) {
 			append(result, d);	
 		}
 	}
+	//printlist(*temp);
+	printf("\n");
 	j = 0; k = 0;
 	while(j < DECIMAL_PRECISION) {
 		append(temp, 0);
@@ -411,43 +413,9 @@ list *divide(list *l1, list *l2) {
 }
 
 
-list *modulu(list *l1, list *l2) {
-	
-	int d1, d2, n;
-
-	d1 = l1->decimal;
-	d2 = l2->decimal;
-	
-	if(d1 > d2) {
-		n = d1 - d2;
-		for(int i = 0; i < n; i++) {
-			append(l2, 0);
-			l2->decimal++;
-		}
-	}
-	else if(d2 > d1) {
-		n = d2 - d1;
-		for(int i = 0; i < n; i++) {
-			append(l1, 0);
-			l1->decimal++;
-		}
-	}
-
-	l1->decimal = 0;
-	l2->decimal = 0;
-	
-	while(greater(l1, l2) > 0){
-		l1 = substract(l1, l2);
-	}
-	l1->decimal = d1;
-	l2->decimal = d2;
-	
-	return l1;
-}
-
 list *modulus(list *l1, list *l2) {
 	if(iszero(l2) == 0) {
-		printf("ERROR:modulo by zero");
+		printf("Error: invalid operand for modulus 0");
 		return NULL;
 	}
 	list *result;
@@ -478,15 +446,17 @@ list *modulus(list *l1, list *l2) {
 	
 	a = l1->decimal;
 	b = l2->decimal;
-	/*if(l1->decimal != 0) {
-		length(l1) = length(l1) - l1->decimal;
-	}*/
+	/*
 	if(l3->decimal != 0) {
 		i = l3->decimal;
 		for(j = 0; j < i; j++) {
 			remov(l3, length(l3));
 		}
-	}
+	}*/
+
+	l1->decimal -= b;
+	l3->decimal -= b;
+
 	for(i = 0; i < length(l1) - l1->decimal; i++) {
 		num = show(l1, i);
 		append(temp, num);
@@ -498,18 +468,28 @@ list *modulus(list *l1, list *l2) {
 			while(1) {
 				temp = substract(temp, l3);
 				d++;
-				if(greater(temp, l3) < 0)
+
+				if(greater(temp, l3) < 0){
 					break;
-					
+				}	
 			}
 			append(result, d);
 		}
 	}
+	
+	for(i = 0; i < l1->decimal; i++){
+		int z = show(l1,length(l1) - l1->decimal + i);
+		
+		append(temp, z);
+		temp->decimal++;
+	}
 
+	//l1->len = m;
 	l1->sign = sign1;
 	l2->sign = sign2;
 	l1->decimal = a;
 	l2->decimal = b;
+	temp->decimal += b;
 	return temp;
 }
 

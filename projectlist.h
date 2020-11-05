@@ -22,5 +22,6 @@ void printlist(list l);
 void copy(list *l1, list *l2);
 void destroy(list **l);
 int show(list *l, int pos);
+void fprintlist(list l, FILE *fp);
 
 
