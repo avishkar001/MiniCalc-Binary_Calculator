@@ -62,6 +62,51 @@ char itop_peek(itop_stack s){
 
 }
 
+
+// Returns 1 if character1 and character2 are matching left
+// and right Brackets
+int isMatchingPair(char character1, char character2)
+{
+    if (character1 == '(' && character2 == ')')
+        return 1;
+    else if (character1 == '{' && character2 == '}')
+        return 1;
+    else if (character1 == '[' && character2 == ']')
+        return 1;
+    else
+        return 0;
+}
+
+int check_parenthesis(char* arr){
+ 
+    itop_stack s;
+    itop_init(&s, 1000);
+    int i=0;
+
+    while(arr[i]){
+        if (arr[i] == '{' || arr[i] == '(' || arr[i] == '[')
+            itop_push(&s, arr[i]);
+
+        if (arr[i] == '}' || arr[i] == ')'|| arr[i] == ']'){
+ 
+            if (itop_isEmpty(s))
+                return 0;
+
+            else if (!isMatchingPair(itop_pop(&s), arr[i]))
+                return 0;
+        }
+        i++;
+    }
+
+    if (itop_isEmpty(s))
+        return 1; // balanced
+    else
+        return 0; // not balanced
+}
+
+
+
+
 int precedence(char c){
     if(c == '+')
         return 10;
@@ -82,6 +127,10 @@ int precedence(char c){
 
 void itop(char* E){
 
+    if(!check_parenthesis(E)){
+        printf("Error: parenthesis not balanced");
+        exit(1);
+    }
 
     itop_stack s;
     itop_init(&s,1000);

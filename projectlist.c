@@ -151,6 +151,20 @@ int sign(list l){
 }
 
 
+void copy(list *l1, list *l2) {
+	int dec, i, num, sign;
+	initlist(l2);
+	for(i = 0; i < length(l1); i++) {
+		num = show(l1, i);
+		append(l2, num);
+	}
+	dec = l1->decimal;
+	l2->decimal = dec;
+	sign = l1->sign;
+	l2->sign = sign;
+	return;
+}
+
 void destroy(list **l){
 
 	list* temp = *l;

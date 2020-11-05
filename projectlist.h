@@ -19,6 +19,7 @@ void append(list *l, int val);
 int remov(list *l, int pos);
 int getdig(list *l, int pos);
 void printlist(list l);
+void copy(list *l1, list *l2);
 void destroy(list **l);
 int show(list *l, int pos);
 

@@ -411,7 +411,7 @@ list *divide(list *l1, list *l2) {
 }
 
 
-list *modulus(list *l1, list *l2) {
+list *modulu(list *l1, list *l2) {
 	
 	int d1, d2, n;
 
@@ -445,6 +445,73 @@ list *modulus(list *l1, list *l2) {
 	return l1;
 }
 
+list *modulus(list *l1, list *l2) {
+	if(iszero(l2) == 0) {
+		printf("ERROR:modulo by zero");
+		return NULL;
+	}
+	list *result;
+	result = (list *)malloc(sizeof(list));
+	list *temp;
+	temp = (list *)malloc(sizeof(list));
+	initlist(temp);
+	initlist(result);
+	list *l3;
+	l3 = (list *)malloc(sizeof(list));
+	initlist(l3);
+	copy(l2, l3);
+	int m, sign1, sign2;
+	sign1 = l1->sign;
+	sign2 = l2->sign;
+	if(l1->sign == l2->sign) {
+		result->sign = 1;
+		l1->sign = l2->sign = 1;
+	}
+	else {
+		result->sign = -1;
+		l1->sign = l2->sign = 1;
+	}
+	
+	int a, b;
+	m = length(l1);
+	int i, j, num;
+	
+	a = l1->decimal;
+	b = l2->decimal;
+	/*if(l1->decimal != 0) {
+		length(l1) = length(l1) - l1->decimal;
+	}*/
+	if(l3->decimal != 0) {
+		i = l3->decimal;
+		for(j = 0; j < i; j++) {
+			remov(l3, length(l3));
+		}
+	}
+	for(i = 0; i < length(l1) - l1->decimal; i++) {
+		num = show(l1, i);
+		append(temp, num);
+		if(greater(temp, l3) < 0) {
+			append(result, 0);
+		}
+		else {
+			int d = 0;
+			while(1) {
+				temp = substract(temp, l3);
+				d++;
+				if(greater(temp, l3) < 0)
+					break;
+					
+			}
+			append(result, d);
+		}
+	}
+
+	l1->sign = sign1;
+	l2->sign = sign2;
+	l1->decimal = a;
+	l2->decimal = b;
+	return temp;
+}
 
 list *factorial(list *l1) {
 	list *result, *count;
