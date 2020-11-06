@@ -124,16 +124,21 @@ void fprintlist(list l, FILE *fp){
 	tmp = l.head;
 	int d = l.decimal;
 	int len, i = 0;
+	int leading_zero_flag = 0;
 	len = length(&l);
 	if(l.sign < 0)
 		fprintf(fp, "-");
 	while(tmp != NULL){
 		if(i == len - d){
-			if(len == d)
+			if(len == d || leading_zero_flag == 0)
 				fprintf(fp, "0");
 			fprintf(fp, ".");
+			leading_zero_flag = 1;
 		}
-		fprintf(fp, "%d", tmp->val);
+		if(!(leading_zero_flag == 0 && tmp->val==0)){
+			leading_zero_flag = 1;
+			fprintf(fp, "%d", tmp->val);
+		}
 		tmp = tmp->next;
 		i++;
 	}
@@ -144,16 +149,22 @@ void printlist(list l){
 	tmp = l.head;
 	int d = l.decimal;
 	int len, i = 0;
+	int leading_zero_flag = 0;
 	len = length(&l);
 	if(l.sign < 0)
 		printf("-");
 	while(tmp != NULL){
 		if(i == len - d){
-			if(len == d)
+			
+			if(len == d || leading_zero_flag == 0)
 				printf("0");
 			printf(".");
+			leading_zero_flag = 1;
 		}
-		printf("%d", tmp->val);
+		if(!(leading_zero_flag == 0 && tmp->val == 0)){
+			leading_zero_flag = 1;
+			printf("%d", tmp->val);
+		}
 		tmp = tmp->next;
 		i++;
 	}

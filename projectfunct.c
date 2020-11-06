@@ -444,8 +444,7 @@ list *modulus(list *l1, list *l2) {
 	m = length(l1);
 	int i, j, num;
 	
-	a = l1->decimal;
-	b = l2->decimal;
+	
 	/*
 	if(l3->decimal != 0) {
 		i = l3->decimal;
@@ -453,6 +452,17 @@ list *modulus(list *l1, list *l2) {
 			remov(l3, length(l3));
 		}
 	}*/
+
+	if(l1->decimal!=0 && l1->decimal < l2->decimal) {
+		int n = l2->decimal - l1->decimal;
+		for(i = 0; i < n; i++) {
+			append(l1, 0);
+			l1->decimal++;
+		}
+	}
+
+	a = l1->decimal;
+	b = l2->decimal;
 
 	l1->decimal -= b;
 	l3->decimal -= b;
@@ -550,14 +560,15 @@ list *power(list *l1, list *l2){
 list* get_pi(){
 
 	list* pi = (list*)malloc(sizeof(list));
+	initlist(pi);
 
 	pi->sign = 1;
 	pi->decimal = 5;
 
-	char a[] = {6, 2, 8, 3, 1, 9};
+	int a[] = {6, 2, 8, 3, 1, 9};
 
 	for(int i=0; i<6; i++){
-		insert(pi, i, a[i]);
+		append(pi, a[i]);
 	}
 	
 	return pi;
@@ -572,7 +583,6 @@ double list_to_double(list *l){
 	for(i=0; i<(length(l) ); i++){
 
 		ans += show(l,i) * power;
-		printf("\n%d %d\n", show(l,i), power);
 		power = power / 10;
 	}
 	ans *= l->sign;

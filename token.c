@@ -369,13 +369,14 @@ int main(int argc, char *argv[]) {
 		l = postfix(line, fp);
 		if(l->head != NULL){
 			printlist(*l);
+			
 			printf("\n");
 			break;
 		}
 		else
 			fprintf(stderr, "Error in expression\n");
 	}
-	
+	//printf("\n%lf\n", sine(l));
 	return 0;
 }
 
