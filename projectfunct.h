@@ -1,4 +1,5 @@
 #include"projectstack.h"
+#define DECIMAL_PRECISION 10
 
 int iszero(list *l);
 int greater(list *l1, list *l2);

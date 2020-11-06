@@ -82,6 +82,7 @@ int check_parenthesis(char* arr){
     itop_stack s;
     itop_init(&s, 1000);
     int i=0;
+    //printf("checking parenthesis\n");
 
     while(arr[i]){
         if (arr[i] == '{' || arr[i] == '(' || arr[i] == '[')
@@ -126,6 +127,7 @@ int precedence(char c){
 }
 
 void itop(char* E){
+    //printf("inside itop");
 
     if(!check_parenthesis(E)){
         printf("Error: parenthesis not balanced");

@@ -4,7 +4,6 @@
 #include<stdlib.h>
 #include"projectfunct.h"
 #include<math.h>
-#define DECIMAL_PRECISION 10
 
 int greater(list *l1, list *l2) {
 	if(l1->sign == 1 && l2->sign == -1)
@@ -563,12 +562,14 @@ list* get_pi(){
 	initlist(pi);
 
 	pi->sign = 1;
-	pi->decimal = 5;
+	pi->decimal = DECIMAL_PRECISION - 1;
 
-	int a[] = {6, 2, 8, 3, 1, 9};
+	int a[] = {6, 2, 8, 3, 1, 8, 5, 3, 0, 7, 1, 7, 8};
 
-	for(int i=0; i<6; i++){
+	for(int i=0; i<DECIMAL_PRECISION; i++){
 		append(pi, a[i]);
+		if(i==12)
+			break;
 	}
 	
 	return pi;
@@ -594,7 +595,7 @@ double sine(list *l){
 	list *result;	
 	result = (list *)malloc(sizeof(list));
 	initlist(result);
-
+	printf("inside sine");
 	result = modulus(l, get_pi());
 	return sin(list_to_double(result));
 }

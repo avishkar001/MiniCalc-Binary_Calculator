@@ -274,8 +274,7 @@ list *postfix(char *str, FILE *fp) {
 				l2 = pop(&s); i--;
 				l1 = pop(&s); i--;
 				switch(t->op) {
-					case '+':
-						
+					case '+':						
 						fprintlist(*l1, fp);
 						fprintf(fp, " + ");
 						fprintlist(*l2, fp);
@@ -376,7 +375,7 @@ int main(int argc, char *argv[]) {
 		else
 			fprintf(stderr, "Error in expression\n");
 	}
-	//printf("\n%lf\n", sine(l));
+	
 	return 0;
 }
 
