@@ -452,7 +452,7 @@ list *modulus(list *l1, list *l2) {
 		}
 	}*/
 
-	if(l1->decimal!=0 && l1->decimal < l2->decimal) {
+	if(l1->decimal < l2->decimal) {
 		int n = l2->decimal - l1->decimal;
 		for(i = 0; i < n; i++) {
 			append(l1, 0);
@@ -556,7 +556,7 @@ list *power(list *l1, list *l2){
 }
 
 
-list* get_pi(){
+list* get_2pi(){
 
 	list* pi = (list*)malloc(sizeof(list));
 	initlist(pi);
@@ -568,11 +568,24 @@ list* get_pi(){
 
 	for(int i=0; i<DECIMAL_PRECISION; i++){
 		append(pi, a[i]);
-		if(i==12)
+		if(i==11)
 			break;
 	}
-	
 	return pi;
+}
+
+list* get_360(){
+
+	list* l = (list*)malloc(sizeof(list));
+	initlist(l);
+
+	int a[] = {3, 6, 0};
+
+	for(int i=0; i<3; i++){
+		append(l, a[i]);
+	}
+
+	return l;
 }
 
 double list_to_double(list *l){
@@ -595,8 +608,7 @@ double sine(list *l){
 	list *result;	
 	result = (list *)malloc(sizeof(list));
 	initlist(result);
-	printf("inside sine");
-	result = modulus(l, get_pi());
+	result = modulus(l, get_2pi());
 	return sin(list_to_double(result));
 }
 
@@ -606,7 +618,7 @@ double cosine(list *l){
 	result = (list *)malloc(sizeof(list));
 	initlist(result);
 
-	result = modulus(l, get_pi());
+	result = modulus(l, get_2pi());
 	return cos(list_to_double(result));
 }
 double tangent(list *l){
@@ -615,7 +627,7 @@ double tangent(list *l){
 	result = (list *)malloc(sizeof(list));
 	initlist(result);
 
-	result = modulus(l, get_pi());
+	result = modulus(l, get_2pi());
 	return tan(list_to_double(result));
 }
 double cot(list *l){
@@ -624,7 +636,7 @@ double cot(list *l){
 	result = (list *)malloc(sizeof(list));
 	initlist(result);
 
-	result = modulus(l, get_pi());
+	result = modulus(l, get_2pi());
 	return cos(list_to_double(result))/sin(list_to_double(result));
 }
 double sec(list *l){
@@ -633,7 +645,7 @@ double sec(list *l){
 	result = (list *)malloc(sizeof(list));
 	initlist(result);
 
-	result = modulus(l, get_pi());
+	result = modulus(l, get_2pi());
 	return 1/cos(list_to_double(result));
 }
 double cosec(list *l){
@@ -642,6 +654,65 @@ double cosec(list *l){
 	result = (list *)malloc(sizeof(list));
 	initlist(result);
 
-	result = modulus(l, get_pi());
+	result = modulus(l, get_2pi());
 	return 1/sin(list_to_double(result));
+}
+double sine_d(list *l){
+
+	list *result;	
+	result = (list *)malloc(sizeof(list));
+	initlist(result);
+	result = divide(l, get_360());
+	result = multiply(result, get_2pi());
+	return sine(result);
+}
+
+double cosine_d(list *l){
+
+	list *result;	
+	result = (list *)malloc(sizeof(list));
+	initlist(result);
+	result = divide(l, get_360());
+	result = multiply(result, get_2pi());
+	return cosine(result);
+}
+
+double tangent_d(list *l){
+
+	list *result;	
+	result = (list *)malloc(sizeof(list));
+	initlist(result);
+	result = divide(l, get_360());
+	result = multiply(result, get_2pi());
+	return tangent(result);
+}
+
+double cot_d(list *l){
+
+	list *result;	
+	result = (list *)malloc(sizeof(list));
+	initlist(result);
+	result = divide(l, get_360());
+	result = multiply(result, get_2pi());
+	return cot(result);
+}
+
+double sec_d(list *l){
+
+	list *result;	
+	result = (list *)malloc(sizeof(list));
+	initlist(result);
+	result = divide(l, get_360());
+	result = multiply(result, get_2pi());
+	return sec(result);
+}
+
+double cosec_d(list *l){
+
+	list *result;	
+	result = (list *)malloc(sizeof(list));
+	initlist(result);
+	result = divide(l, get_360());
+	result = multiply(result, get_2pi());
+	return cosec(result);
 }

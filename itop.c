@@ -126,7 +126,7 @@ int precedence(char c){
     return 0;
 }
 
-void itop(char* E){
+void infix_to_postfix(char* E){
     //printf("inside itop");
 
     if(!check_parenthesis(E)){

@@ -142,6 +142,8 @@ void fprintlist(list l, FILE *fp){
 		tmp = tmp->next;
 		i++;
 	}
+	if(leading_zero_flag == 0)
+		fprintf(fp, "0");
 }
 
 void printlist(list l){
@@ -168,6 +170,8 @@ void printlist(list l){
 		tmp = tmp->next;
 		i++;
 	}
+	if(leading_zero_flag == 0)
+		printf("0");
 }
 
 int sign(list l){

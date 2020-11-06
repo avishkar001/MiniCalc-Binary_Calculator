@@ -8,8 +8,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include"projectfunct.h"
-#include"itop.h"
+#include <ctype.h>
+#include "projectfunct.h"
+#include "itop.h"
 
 
 #define OPERATOR	1
@@ -354,6 +355,136 @@ list *postfix(char *str, FILE *fp) {
 		return NULL;
 }
 
+double trigno(char arr[]){
+
+	char str[10];
+	int op = 0, i;
+
+	strncpy(str, arr, 7);
+
+	if(strncmp(str, "sin", 3)==0){
+		op = 1;
+		i = 4;
+		if(str[i-1] == 'd'){
+			i++;
+			op += 6;
+		}
+	}
+	else if(strncmp(str, "cosec", 5)==0){
+		printf("bye");
+		op = 6;
+		i = 6;
+		if(str[i-1] == 'd'){
+			i++;
+			op += 6;
+		}
+	}
+	else if(strncmp(str, "cos", 3)==0){
+		op = 2;
+		i = 4;
+		if(str[i-1] == 'd'){
+			i++;
+			op += 6;
+		}
+	}
+	else if(strncmp(str, "tan", 3)==0){
+		op = 3;
+		i = 4;
+		if(str[i-1] == 'd'){
+			i++;
+			op += 6;
+		}
+	}
+	else if(strncmp(str, "cot", 3)==0){
+		op = 4;
+		i = 4;
+		if(str[i-1] == 'd'){
+			i++;
+			op += 6;
+		}
+	}
+	else if(strncmp(str, "sec", 3)==0){
+		op = 5;
+		i = 4;
+		if(str[i-1] == 'd'){
+			i++;
+			op += 6;
+		}
+	}
+	
+	
+	list* l = (list *)malloc(sizeof(list));
+	initlist(l);
+
+	int dec_flag = 0;
+	while(arr[i+1] != '\n'){
+		if(arr[i] == '-')
+			l->sign = -1;
+
+		if(arr[i] == '.')
+			dec_flag = 1;
+
+		if(isdigit(arr[i])){
+			append(l, arr[i] - '0');
+
+			if(dec_flag)
+				l->decimal++;
+		}
+
+		i++;
+	}
+	remov(l, length(l) - 1);
+	if(l->decimal != 0)
+		l->decimal--;
+
+	switch(op){
+		case 1:
+			return sine(l);
+			break;
+		case 2:
+			return cosine(l);
+			break;
+		case 3:
+			return tangent(l);
+			break;
+		case 4:
+			return cot(l);
+			break;
+		case 5:
+			return sec(l);
+			break;
+		case 6:
+		printlist(*l);
+		printf("hi");
+			return cosec(l);
+			break;
+		case 7:
+			return sine_d(l);
+			break;
+		case 8:
+			return cosine_d(l);
+			break;
+		case 9:
+			return tangent_d(l);
+			break;
+		case 10:
+			return cot_d(l);
+			break;
+		case 11:
+			return sec_d(l);
+			break;
+		case 12:
+			return cosec_d(l);
+			break;
+		
+		default:
+			printf("invalid expression");
+			exit(1);
+	}
+		
+	return 0;
+
+}
 
 int main(int argc, char *argv[]) {
 	char line[1000];
@@ -361,10 +492,18 @@ int main(int argc, char *argv[]) {
 	list *l;
 	l = (list *)malloc(sizeof(list));
 	FILE *fp;
-	fp = fopen("steps.txt", "w");
+	fp = fopen("steps.txt", "a");
+	fprintf(fp, "\n");
 
 	while(x = readline(line, 1000)) {
-		itop(line);
+
+		if(isalpha(line[0])){
+			printf("%lf", trigno(line));
+			return 0;
+		}
+
+		if(!(argc == 2 && !strcmp(argv[1], "-p")))
+			infix_to_postfix(line);
 		l = postfix(line, fp);
 		if(l->head != NULL){
 			printlist(*l);
@@ -375,7 +514,7 @@ int main(int argc, char *argv[]) {
 		else
 			fprintf(stderr, "Error in expression\n");
 	}
-	
+	printf("\n%lf\n", sine_d(l));
 	return 0;
 }
 

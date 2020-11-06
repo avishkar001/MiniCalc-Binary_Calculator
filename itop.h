@@ -1,1 +1,1 @@
-void itop(char* E);
+void infix_to_postfix(char* E);
