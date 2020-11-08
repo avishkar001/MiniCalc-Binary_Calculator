@@ -25,7 +25,6 @@ typedef struct token{
 	int num;
 	char op;
 	list *l;
-	int decflag;
 }token;
 
 
@@ -36,8 +35,6 @@ void addtolist(token t, char ch){
 	if(i >=0 && i<= 9){
 		append(t.l, i);
 	}	
-	if(t.decflag == 1)
-		t.l->decimal++;
 }
 
 int readline(char *arr, int n) {
@@ -157,7 +154,7 @@ token getnext(char *str) {
 							t.l->decimal++;
 						break;
 
-					case '+': case '-': case '*': case '/': case '%': case '^':case '!':
+					case '+': case '-': case '*': case '/': case '%': case '^':
 						t.type = OPERATOR;
 						nextstate = OP;
 						currop = currchar;
@@ -371,7 +368,6 @@ double trigno(char arr[]){
 		}
 	}
 	else if(strncmp(str, "cosec", 5)==0){
-		printf("bye");
 		op = 6;
 		i = 6;
 		if(str[i-1] == 'd'){
@@ -417,7 +413,7 @@ double trigno(char arr[]){
 	initlist(l);
 
 	int dec_flag = 0;
-	while(arr[i+1] != '\n'){
+	while(arr[i] != '\0'){
 		if(arr[i] == '-')
 			l->sign = -1;
 
@@ -433,10 +429,7 @@ double trigno(char arr[]){
 
 		i++;
 	}
-	remov(l, length(l) - 1);
-	if(l->decimal != 0)
-		l->decimal--;
-
+	
 	switch(op){
 		case 1:
 			return sine(l);
@@ -454,8 +447,6 @@ double trigno(char arr[]){
 			return sec(l);
 			break;
 		case 6:
-		printlist(*l);
-		printf("hi");
 			return cosec(l);
 			break;
 		case 7:
@@ -494,7 +485,7 @@ int main(int argc, char *argv[]) {
 	FILE *fp;
 	fp = fopen("steps.txt", "a");
 	fprintf(fp, "\n");
-
+	
 	while(x = readline(line, 1000)) {
 
 		if(isalpha(line[0])){
@@ -514,7 +505,8 @@ int main(int argc, char *argv[]) {
 		else
 			fprintf(stderr, "Error in expression\n");
 	}
-	printf("\n%lf\n", sine_d(l));
+	
+	
 	return 0;
 }
 

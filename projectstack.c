@@ -14,6 +14,10 @@ void push(stack *s, list *l) {
 }
 
 list *pop(stack *s) {
+	if(isempty(s)){
+		printf("invalid expression");
+		exit(1);
+	}
 	list *tmp = (list *)malloc(sizeof(list)); 
 	tmp = s->l[s->i - 1];
 	(s->i)--;

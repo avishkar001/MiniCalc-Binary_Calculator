@@ -327,12 +327,9 @@ list *multiply(list *l1, list *l2) {
 				}
 				second = second->prev;
 			}
-			int k = 0;
-			while(a[k] == 0){
-				k++;	
-			}
-			for(i = 0; k < lenr; k++, i++) {
-				insert(result, i, a[k]);
+			
+			for(i = 0; i < lenr; i++) {
+				insert(result, i, a[i]);
 			}
 			result->decimal = d1 + d2;
 			return result;
@@ -499,11 +496,17 @@ list *modulus(list *l1, list *l2) {
 	l1->decimal = a;
 	l2->decimal = b;
 	temp->decimal += b;
+	temp->sign = l1->sign;
 	return temp;
 }
 
 list *factorial(list *l1) {
 	list *result, *count;
+	
+	if(l1->sign == -1){
+		printf("Error: factorial of a negative number doesn't exist");
+		exit(1);
+	}
 	if(l1->decimal == 0){
 		result = (list *)malloc(sizeof(list));
 		initlist(result);
@@ -521,13 +524,19 @@ list *factorial(list *l1) {
 	}
 
 	else printf("factorial of decimal number cant be calculated");
-	return NULL;		 
+	exit(1);		 
 	
 }
 
 
 
 list *power(list *l1, list *l2){
+
+	if(l2->decimal != 0 || l2->sign == -1){
+		printf("Invalid operaand for power");
+		exit(1);
+	}
+
 	int i, d;
 	d = l1->decimal;
 
@@ -551,7 +560,7 @@ list *power(list *l1, list *l2){
 		if(!iszero(pow))
 			break;			
 	}
-	result->decimal = 2 * d;
+	result->decimal = list_to_double(l2) * d;
 	return result;
 }
 

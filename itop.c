@@ -163,7 +163,7 @@ void infix_to_postfix(char* E){
                         if(itop_isEmpty(s))
                             itop_push(&s, c);
                         else {
-                            while(!itop_isEmpty(s) && precedence(itop_peek(s)) >= precedence(c)){
+                            while(!itop_isEmpty(s) && (c!= '^' && precedence(itop_peek(s)) >= precedence(c) || c== '^' && precedence(itop_peek(s)) > precedence(c))){
                                   postfix[j++] = itop_pop(&s);
                                   postfix[j++] = ' ';
                             }
